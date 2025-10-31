@@ -1,0 +1,128 @@
+@model IEnumerable<HRMS_CSharp.Models.SalaryType>
+
+@{
+    ViewData["Title"] = "Salary Types";
+}
+
+<div class="page-wrapper">
+    <div class="message"></div>
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h3 class="text-themecolor">Payroll</h3>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Salary Types</li>
+            </ol>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row m-b-10">
+            <div class="col-12">
+                <button type="button" class="btn btn-info">
+                    <i class="fa fa-plus"></i>
+                    <a data-toggle="modal" data-target="#TypeModal" data-whatever="getbootstrap" class="text-white TypeModal">
+                        <i class="" aria-hidden="true"></i> Add Salary Type
+                    </a>
+                </button>
+                <button type="button" class="btn btn-primary">
+                    <i class="fa fa-bars"></i>
+                    <a href="@Url.Action("Generate_salary", "Payroll")" class="text-white">
+                        <i class="" aria-hidden="true"></i> Generate Payroll
+                    </a>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-outline-info">
+                    <div class="card-header">
+                        <h4 class="m-b-0 text-white">Types of Salary</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Salary Type</th>
+                                        <th>Create Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Id</td>
+                                            <td>@item.SalaryType1</td>
+                                            <td>@item.CreateDate</td>
+                                            <td>
+                                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Add/Edit Salary Type -->
+<div class="modal fade" id="TypeModal" tabindex="-1" role="dialog" aria-labelledby="TypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="TypeModalLabel">Add Salary Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="typeform" method="post" action="@Url.Action("Add_Sallary_Type", "Payroll")">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="typename">Salary Type Name</label>
+                        <input type="text" class="form-control" id="typename" name="typename" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="createdate">Create Date</label>
+                        <input type="date" class="form-control" id="createdate" name="createdate" required>
+                    </div>
+                    <input type="hidden" name="id" value="" class="form-control" id="recipient-name1">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".TypeModal").click(function (e) {
+            e.preventDefault();
+            var iid = $(this).attr('data-id');
+            $('#typeform').trigger("reset");
+            $('#TypeModal').modal('show');
+            if (iid) {
+                $.ajax({
+                    url: '@Url.Action("GetSallaryTypeById", "Payroll")?id=' + iid,
+                    method: 'GET',
+                    dataType: 'json',
+                }).done(function (response) {
+                    $('#typeform').find('[name="id"]').val(response.id);
+                    $('#typeform').find('[name="typename"]').val(response.salaryType1);
+                    $('#typeform').find('[name="createdate"]').val(response.createDate);
+                });
+            }
+        });
+    });
+</script>

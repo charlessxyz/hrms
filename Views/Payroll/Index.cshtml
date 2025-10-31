@@ -1,0 +1,80 @@
+@{
+    ViewData["Title"] = "Payroll View";
+}
+
+<div class="page-wrapper">
+    <div class="message"></div>
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h3 class="text-themecolor"><i class="fa fa-money"></i> Payroll View</h3>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Payroll View</li>
+            </ol>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row m-b-10">
+            <div class="col-12">
+                <button type="button" class="btn btn-primary">
+                    <a href="@Url.Action("Salary_Type", "Payroll")" class="text-white">
+                        <i class="fa fa-bars"></i> Salary Types
+                    </a>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-outline-info">
+                    <div class="card-header">
+                        <h4 class="m-b-0 text-white">Monthly Payroll List</h4>
+                        <button type="button" class="btn btn-light float-right" onclick="window.print()">
+                            <i class="fa fa-print"></i> Print
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="@Url.Action("Generate_salary", "Payroll")" id="salaryform" class="form-material row">
+                            <div class="form-group col-md-4">
+                                <select class="form-control custom-select" data-placeholder="Choose a Department" tabindex="1" id="depid" name="depid" style="margin-top: 21px;" required>
+                                    <option value="#">Department</option>
+                                    <!-- Populate departments dynamically -->
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="month" name="month" placeholder="Month" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="year" name="year" placeholder="Year" required>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-success">Generate Payroll</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#depid').change(function() {
+                var depid = $(this).val();
+                if (depid) {
+                    $.ajax({
+                        url: '@Url.Action("load_employee_by_deptID_for_pay", "Payroll")',
+                        type: 'POST',
+                        data: { depid: depid },
+                        success: function(response) {
+                            // Handle response
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,40 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Organization";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Organization Details</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var org in Model.organizations)
+                                {
+                                    <tr>
+                                        <td>@org.OrgName</td>
+                                        <td>@org.OrgAddress</td>
+                                        <td>@org.OrgPhone</td>
+                                        <td>@org.OrgEmail</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

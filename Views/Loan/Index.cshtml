@@ -1,0 +1,44 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Loan Management";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Loans</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Approve Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var loan in Model.loans)
+                                {
+                                    <tr>
+                                        <td>@loan.Employee?.FirstName @loan.Employee?.LastName</td>
+                                        <td>@loan.Amount</td>
+                                        <td>@loan.Status</td>
+                                        <td>@loan.ApproveDate?.ToString("yyyy-MM-dd")</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary">View</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

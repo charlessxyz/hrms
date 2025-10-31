@@ -1,0 +1,46 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "All Tasks";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">All Tasks</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Task Title</th>
+                                    <th>Project</th>
+                                    <th>Status</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in Model.tasks)
+                                {
+                                    <tr>
+                                        <td>@task.TaskTitle</td>
+                                        <td>@Model.projects.FirstOrDefault(p => p.Id == task.ProId)?.ProName</td>
+                                        <td>@task.Status</td>
+                                        <td>@task.StartDate?.ToString("yyyy-MM-dd")</td>
+                                        <td>@task.EndDate?.ToString("yyyy-MM-dd")</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary">Edit</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

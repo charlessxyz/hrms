@@ -1,0 +1,57 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Field Visit";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Field Visit Applications</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Employee</th>
+                                    <th>Location</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var app in Model.application)
+                                {
+                                    var project = ((IEnumerable<dynamic>)Model.projects).FirstOrDefault(p => p.Id == app.ProjectId);
+                                    var emp = ((IEnumerable<dynamic>)Model.employee).FirstOrDefault(e => e.Id == app.EmpId);
+                                    <tr>
+                                        <td>@project?.ProName</td>
+                                        <td>@emp?.FirstName @emp?.LastName</td>
+                                        <td>@app.FieldLocation</td>
+                                        <td>@app.StartDate?.ToString("yyyy-MM-dd")</td>
+                                        <td>@app.ApproxEndDate?.ToString("yyyy-MM-dd")</td>
+                                        <td>@app.Status</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-success" onclick="authorize(@app.Id, 'Approve')">Approve</button>
+                                            <button class="btn btn-sm btn-danger" onclick="authorize(@app.Id, 'Reject')">Reject</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function authorize(id, status) {
+        // AJAX call to authorize
+    }
+</script>

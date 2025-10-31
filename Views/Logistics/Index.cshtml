@@ -1,0 +1,44 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Logistics";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Assets Assigned</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Asset</th>
+                                    <th>Project</th>
+                                    <th>Task</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var asset in Model.assets)
+                                {
+                                    <tr>
+                                        <td>@asset.Employee?.FirstName @asset.Employee?.LastName</td>
+                                        <td>@asset.Asset?.AssetName</td>
+                                        <td>@asset.Project?.ProName</td>
+                                        <td>@asset.Task?.TaskTitle</td>
+                                        <td>@asset.StartDate?.ToString("yyyy-MM-dd")</td>
+                                        <td>@asset.EndDate?.ToString("yyyy-MM-dd")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

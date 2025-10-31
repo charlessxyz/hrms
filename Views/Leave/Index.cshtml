@@ -1,0 +1,139 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Leave";
+}
+
+<div class="page-wrapper">
+    <div class="message"></div>
+    <div class="row page-titles">
+        <div class="col-md-5 align-self-center">
+            <h3 class="text-themecolor"><i class="fa fa-calendar"></i> Leave</h3>
+        </div>
+        <div class="col-md-7 align-self-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item active">Leave</li>
+            </ol>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row m-b-10">
+            <div class="col-12">
+                <button type="button" class="btn btn-info">
+                    <i class="fa fa-plus"></i>
+                    <a data-toggle="modal" data-target="#leaveModal" data-whatever="getbootstrap" class="text-white leaveModal">
+                        <i class="" aria-hidden="true"></i> Add Leave
+                    </a>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-outline-info">
+                    <div class="card-header">
+                        <h4 class="m-b-0 text-white">Leave Applications</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Leave Type</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var leave in Model.leaves)
+                                    {
+                                        <tr>
+                                            <td>@leave.Employee?.FirstName @leave.Employee?.LastName</td>
+                                            <td>@leave.LeaveType?.Name</td>
+                                            <td>@leave.StartDate?.ToString("yyyy-MM-dd")</td>
+                                            <td>@leave.EndDate?.ToString("yyyy-MM-dd")</td>
+                                            <td>@leave.LeaveStatus</td>
+                                            <td>
+                                                <a href="@Url.Action("Approve", "Leave", new { id = leave.Id })" class="btn btn-sm btn-primary">Approve</a>
+                                                <a href="@Url.Action("Reject", "Leave", new { id = leave.Id })" class="btn btn-sm btn-danger">Reject</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Add/Edit Leave -->
+<div class="modal fade" id="leaveModal" tabindex="-1" role="dialog" aria-labelledby="leaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="leaveModalLabel">Add Leave</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="leaveform" method="post" action="@Url.Action("Add_Leave", "Leave")">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="employeeid">Employee</label>
+                        <select class="form-control" id="employeeid" name="employeeid" required>
+                            <option value="">Select Employee</option>
+                            <!-- Populate employees -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="leavetype">Leave Type</label>
+                        <select class="form-control" id="leavetype" name="leavetype" required>
+                            <option value="">Select Leave Type</option>
+                            <!-- Populate leave types -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="startdate">Start Date</label>
+                        <input type="date" class="form-control" id="startdate" name="startdate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="enddate">End Date</label>
+                        <input type="date" class="form-control" id="enddate" name="enddate" required>
+                    </div>
+                    <input type="hidden" name="id" value="" class="form-control" id="recipient-name1">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".leaveModal").click(function (e) {
+            e.preventDefault();
+            var iid = $(this).attr('data-id');
+            $('#leaveform').trigger("reset");
+            $('#leaveModal').modal('show');
+            if (iid) {
+                $.ajax({
+                    url: '@Url.Action("GetLeaveById", "Leave")?id=' + iid,
+                    method: 'GET',
+                    dataType: 'json',
+                }).done(function (response) {
+                    $('#leaveform').find('[name="id"]').val(response.id);
+                    // Populate other fields
+                });
+            }
+        });
+    });
+</script>

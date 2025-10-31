@@ -1,0 +1,40 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">System Settings</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Setting</th>
+                                    <th>Value</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var setting in Model.settings)
+                                {
+                                    <tr>
+                                        <td>@setting.Title</td>
+                                        <td>@setting.Value</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary">Edit</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

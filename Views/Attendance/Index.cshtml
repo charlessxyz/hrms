@@ -1,0 +1,42 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Attendance";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Attendance Records</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Date</th>
+                                    <th>Sign In</th>
+                                    <th>Sign Out</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var att in Model.attendances)
+                                {
+                                    <tr>
+                                        <td>@att.Employee?.FirstName @att.Employee?.LastName</td>
+                                        <td>@att.AttenDate?.ToString("yyyy-MM-dd")</td>
+                                        <td>@att.SigninTime</td>
+                                        <td>@att.SignoutTime</td>
+                                        <td>@att.Status</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

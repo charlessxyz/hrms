@@ -1,0 +1,78 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Project Details";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">@Model.details.ProName</h4>
+                    <p>@Model.details.ProDescription</p>
+                    <p>Status: @Model.details.ProStatus</p>
+                    <p>Progress: @Model.details.Progress%</p>
+
+                    <h5>Tasks</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Task Title</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in Model.tasklist)
+                                {
+                                    <tr>
+                                        <td>@task.TaskTitle</td>
+                                        <td>@task.Description</td>
+                                        <td>@task.Status</td>
+                                        <td>@task.StartDate?.ToString("yyyy-MM-dd")</td>
+                                        <td>@task.EndDate?.ToString("yyyy-MM-dd")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h5>Notes</h5>
+                    <ul>
+                        @foreach (var note in Model.notes)
+                        {
+                            <li>@note.Details</li>
+                        }
+                    </ul>
+
+                    <h5>Expenses</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Details</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var expense in Model.expenses)
+                                {
+                                    <tr>
+                                        <td>@expense.Details</td>
+                                        <td>@expense.Amount</td>
+                                        <td>@expense.Date?.ToString("yyyy-MM-dd")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
